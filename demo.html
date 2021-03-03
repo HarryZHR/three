@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="https://cdn.bootcss.com/three.js/r83/three.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="js/OrbitControls.js"></script>
+
+</head>
+<body>
+    <script>
+    var renderer, scene, camera;
+    var INTERSECTED;
+    var raycaster;
+    var mouse;
+    var controls ;
+    function init() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );  // 设置渲染范围
+
+
+        var light = new THREE.AmbientLight(0xffffff);
+        scene.add(light);
+        camera.position.x = 80;
+        camera.position.y = 30;
+        camera.position.z = 0;
+        camera.lookAt( new THREE.Vector3(0, 0, 0));
+        renderer.render( scene, camera );
+
+        raycaster = new THREE.Raycaster();
+        mouse = new THREE.Vector2();
+        document.body.appendChild( renderer.domElement );
+
+        creatCube();
+        render();
+    }
+    document.addEventListener('click', onDocumentMouseClick, false);
+
+    function onDocumentMouseClick(event) {
+        event.preventDefault();
+        //通过鼠标点击的位置计算出raycaster所需要的点的位置，以屏幕中心为原点，值的范围为-1到1.
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        // 通过鼠标点的位置和当前相机的矩阵计算出raycaster
+        raycaster.setFromCamera( mouse, camera );
+
+        // 获取raycaster直线和所有模型相交的数组集合
+        var intersects = raycaster.intersectObjects( scene.children );
+
+        console.log(intersects);
+
+        camera.position.x = -10;
+        camera.position.y = 30;
+        camera.position.z = 0;
+        camera.lookAt( new THREE.Vector3(-20, -30, 20));
+    }
+
+    function creatCube() {
+        // 定义材质
+        // 格子
+        var texture = THREE.ImageUtils.loadTexture('http://renyuan.bos.xyz/FloorsCheckerboard_S_Diffuse.jpg', {}, function () {
+            renderer.render(scene, camera);
+        });
+        const material = new THREE.MeshLambertMaterial({
+            map: texture // 将材质的map属性设置为加载的图片
+        });
+        // 画
+        var texturePic = THREE.ImageUtils.loadTexture('./img/demo.png', {}, function () {
+            renderer.render(scene, camera);
+        });
+        const materialPic = new THREE.MeshLambertMaterial({
+            map: texturePic // 将材质的map属性设置为加载的图片
+        });
+        // 白色
+        var white = new THREE.MeshLambertMaterial({color: "#fff"})
+
+        // 地板材质
+        //[右，左，上，下，前 后]
+        var materialsPlane = [white, white, material, white, white, white]
+        var geometryPlane = new THREE.BoxGeometry(100, 1, 40); // 物体形状
+        var cubePlane = new THREE.Mesh(geometryPlane, new THREE.MeshFaceMaterial(materialsPlane));
+        scene.add(cubePlane);
+
+        // 墙
+        var materialsWall = [white, white, white, white, material, white]
+        var geometryWall = new THREE.BoxGeometry(100, 40, 1); // 物体形状
+        var cubeWall = new THREE.Mesh(geometryWall, new THREE.MeshFaceMaterial(materialsWall));
+        cubeWall.position.x = 0
+        cubeWall.position.y = 19.5
+        cubeWall.position.z = -20.5
+        scene.add(cubeWall);
+        // var geometryWall2 = new THREE.BoxGeometry( 80, 40, 1 ); // 物体形状
+        var materialsWall2 = [white, white, white, white, white, material]
+        var cubeWall2 = new THREE.Mesh(geometryWall, new THREE.MeshFaceMaterial(materialsWall2));
+        cubeWall2.position.x = 0
+        cubeWall2.position.y = 19.5
+        cubeWall2.position.z = 20.5
+        scene.add(cubeWall2);
+
+        // 画
+        var geometryPic = new THREE.BoxGeometry(10, 13, 1); // 物体形状
+        var cubePic = new THREE.Mesh(geometryPic, materialPic);
+        cubePic.position.z = -20
+        cubePic.position.x = -30
+        cubePic.position.y = 20
+        scene.add(cubePic);
+    }
+
+    function render() {
+        requestAnimationFrame(render);
+        renderer.render(scene, camera);
+        raycaster.setFromCamera(mouse, camera);
+        var intersects = raycaster.intersectObjects(scene.children);
+        // console.log(intersects)
+    }
+    init();
+
+</script>
+</body>
+</html>
