@@ -60,11 +60,20 @@
         var intersects = raycaster.intersectObjects( scene.children );
 
         console.log(intersects);
+        if (intersects.length > 0) {
+            var pic = intersects[0]
+            var name = pic.object.name
+            var position = pic.object.position
+            if (name !== '') {
+                if (name.indexOf('pic') !== -1) {
+                    camera.position.x = position.x;
+                    camera.position.y = position.y;
+                    camera.position.z = (-1) * position.z / 2;
+                    camera.lookAt( new THREE.Vector3(position.x, position.y, position.z));
+                }
+            }
+        }
 
-        camera.position.x = -10;
-        camera.position.y = 30;
-        camera.position.z = 0;
-        camera.lookAt( new THREE.Vector3(-20, -30, 20));
     }
 
     function creatCube() {
@@ -77,11 +86,17 @@
             map: texture // 将材质的map属性设置为加载的图片
         });
         // 画
-        var texturePic = THREE.ImageUtils.loadTexture('./img/demo.png', {}, function () {
+        var texturePic = THREE.ImageUtils.loadTexture('./img/demo.jpg', {}, function () {
             renderer.render(scene, camera);
         });
         const materialPic = new THREE.MeshLambertMaterial({
             map: texturePic // 将材质的map属性设置为加载的图片
+        });
+        var texturePic2 = THREE.ImageUtils.loadTexture('./img/demo2.jpg', {}, function () {
+            renderer.render(scene, camera);
+        });
+        const materialPic2 = new THREE.MeshLambertMaterial({
+            map: texturePic2 // 将材质的map属性设置为加载的图片
         });
         // 白色
         var white = new THREE.MeshLambertMaterial({color: "#fff"})
@@ -112,10 +127,18 @@
         // 画
         var geometryPic = new THREE.BoxGeometry(10, 13, 1); // 物体形状
         var cubePic = new THREE.Mesh(geometryPic, materialPic);
-        cubePic.position.z = -20
+        cubePic.name = 'pic1'
         cubePic.position.x = -30
         cubePic.position.y = 20
+        cubePic.position.z = -20
         scene.add(cubePic);
+
+        var cubePic2 = new THREE.Mesh(geometryPic, materialPic2);
+        cubePic2.name = 'pic2'
+        cubePic2.position.x = -30
+        cubePic2.position.y = 20
+        cubePic2.position.z = 20
+        scene.add(cubePic2);
     }
 
     function render() {
@@ -125,7 +148,19 @@
         var intersects = raycaster.intersectObjects(scene.children);
         // console.log(intersects)
     }
+
     init();
+
+
+    function animation()
+    {
+        //renderer.clear();
+        // camera.position.x =camera.position.x +0.01;  // 关键地方  没调一次animation()方法，x就自加1，就会让摄像机的位置改变，这样看到的物体就动了
+        camera.position.x =camera.position.x - 0.1;  // 关键地方  没调一次animation()方法，x就自加1，就会让摄像机的位置改变，这样看到的物体就动了
+        renderer.render(scene, camera);   // 渲染
+        requestAnimationFrame(animation);  // 循环调用animation()方法
+    }
+    animation()
 
 </script>
 </body>
