@@ -106,23 +106,59 @@
         var materialsPlane = [white, white, material, white, white, white]
         var geometryPlane = new THREE.BoxGeometry(100, 1, 40); // 物体形状
         var cubePlane = new THREE.Mesh(geometryPlane, new THREE.MeshFaceMaterial(materialsPlane));
+        cubePlane.position.x = 0
+        cubePlane.position.y = 0
+        cubePlane.position.z = 0
         scene.add(cubePlane);
+        var materialsPlane2 = [white, white, material, white, white, white]
+        var geometryPlane2 = new THREE.BoxGeometry(180, 1, 40); // 物体形状
+        var cubePlane2 = new THREE.Mesh(geometryPlane2, new THREE.MeshFaceMaterial(materialsPlane2));
+        cubePlane2.rotation.y = Math.PI/2
+        cubePlane2.position.x = -90
+        cubePlane2.position.y = 0
+        cubePlane2.position.z = 0
+        scene.add(cubePlane2);
+        var materialsPlane3 = [white, white, material, white, white, white]
+        var geometryPlane3 = new THREE.BoxGeometry(100, 1, 40); // 物体形状
+        var cubePlane3 = new THREE.Mesh(geometryPlane3, new THREE.MeshFaceMaterial(materialsPlane3));
+        cubePlane3.position.x = 0
+        cubePlane3.position.y = 0
+        cubePlane3.position.z = 0
+        scene.add(cubePlane3);
+        var materialsPlane4 = [white, white, material, white, white, white]
+        var geometryPlane4 = new THREE.BoxGeometry(180, 1, 40); // 物体形状
+        var cubePlane4 = new THREE.Mesh(geometryPlane4, new THREE.MeshFaceMaterial(materialsPlane4));
+        cubePlane4.position.x = 10
+        cubePlane4.position.y = 0
+        cubePlane4.position.z = 0
+        scene.add(cubePlane4);
+
+
 
         // 墙
         var materialsWall = [white, white, white, white, material, white]
-        var geometryWall = new THREE.BoxGeometry(100, 40, 1); // 物体形状
-        var cubeWall = new THREE.Mesh(geometryWall, new THREE.MeshFaceMaterial(materialsWall));
+        var geometryWallBor = new THREE.BoxGeometry(180, 40, 1); // 物体形状
+        var geometryWallInner = new THREE.BoxGeometry(100, 40, 1); // 物体形状
+        var cubeWall = new THREE.Mesh(geometryWallInner, new THREE.MeshFaceMaterial(materialsWall));
         cubeWall.position.x = 0
         cubeWall.position.y = 19.5
         cubeWall.position.z = -20.5
         scene.add(cubeWall);
         // var geometryWall2 = new THREE.BoxGeometry( 80, 40, 1 ); // 物体形状
         var materialsWall2 = [white, white, white, white, white, material]
-        var cubeWall2 = new THREE.Mesh(geometryWall, new THREE.MeshFaceMaterial(materialsWall2));
+        var cubeWall2 = new THREE.Mesh(geometryWallBor, new THREE.MeshFaceMaterial(materialsWall2));
         cubeWall2.position.x = 0
         cubeWall2.position.y = 19.5
         cubeWall2.position.z = 20.5
         scene.add(cubeWall2);
+
+        var materialsWall3 = [white, white, white, white, material,white]
+        var cubeWall3 = new THREE.Mesh(geometryWallBor, new THREE.MeshFaceMaterial(materialsWall3));
+        cubeWall3.position.x = -86
+        cubeWall3.position.y = 20
+        cubeWall3.position.z = -68
+        cubeWall3.rotation.y = Math.PI/2
+        scene.add(cubeWall3);
 
         // 画
         var geometryPic = new THREE.BoxGeometry(10, 13, 1); // 物体形状
