@@ -104,23 +104,34 @@
                 camera.position.x =camera.position.x - 1;
                 if (camera.position.x <= -70 && camera.position.z === 0) {
                     camera.position.x = -70
-                    camera.lookAt(new THREE.Vector3(-70,30,-120))
+                    camera.lookAt(new THREE.Vector3(-70,30,-140))
                 }
             }
 
             if (camera.position.x === -70 ) {
                 camera.position.z = camera.position.z - 1
-                if (camera.position.z <= -120  && camera.position.x === -70) {
-                    camera.position.z = -120
-                    camera.lookAt(new THREE.Vector3(70,30,-120))
+                if (camera.position.z <= -140  && camera.position.x === -70) {
+                    camera.position.z = -140
+                    camera.lookAt(new THREE.Vector3(70,30,-140))
                 }
             }
 
 
-            if (camera.position.z === -120) {
+            if (camera.position.z === -140) {
                 camera.position.x = camera.position.x + 1
+                if (camera.position.x >= 70 && camera.position.z === -140) {
+                    camera.position.x = 70
+                    camera.lookAt(new THREE.Vector3(70,30,0))
+                }
             }
 
+            if (camera.position.x === 70) {
+                camera.position.z = camera.position.z + 1
+                if (camera.position.z >= 0 && camera.position.x === 70) {
+                    camera.position.z = 0
+                    camera.lookAt(new THREE.Vector3(-70,30,0))
+                }
+            }
             console.log(camera.position)
         }, 50)
 
@@ -149,6 +160,24 @@
         });
         const materialPic2 = new THREE.MeshLambertMaterial({
             map: texturePic2 // 将材质的map属性设置为加载的图片
+        });
+        var texturePic3 = THREE.ImageUtils.loadTexture('./img/demo3.jpg', {}, function () {
+            renderer.render(scene, camera);
+        });
+        const materialPic3 = new THREE.MeshLambertMaterial({
+            map: texturePic3 // 将材质的map属性设置为加载的图片
+        });
+        var texturePic4 = THREE.ImageUtils.loadTexture('./img/demo4.jpg', {}, function () {
+            renderer.render(scene, camera);
+        });
+        const materialPic4 = new THREE.MeshLambertMaterial({
+            map: texturePic4 // 将材质的map属性设置为加载的图片
+        });
+        var texturePic5 = THREE.ImageUtils.loadTexture('./img/demo5.jpg', {}, function () {
+            renderer.render(scene, camera);
+        });
+        const materialPic5 = new THREE.MeshLambertMaterial({
+            map: texturePic5 // 将材质的map属性设置为加载的图片
         });
         // 白色
         var white = new THREE.MeshLambertMaterial({color: "#fff"})
@@ -270,6 +299,27 @@
         cubePic2.position.y = 20
         cubePic2.position.z = 20
         scene.add(cubePic2);
+        var cubePic3 = new THREE.Mesh(geometryPic, materialPic3);
+        cubePic3.name = 'pic3'
+        cubePic3.rotation.y = Math.PI / 2
+        cubePic3.position.x = -89
+        cubePic3.position.y = 20
+        cubePic3.position.z = -70
+        scene.add(cubePic3);
+        var cubePic4 = new THREE.Mesh(geometryPic, materialPic4);
+        cubePic4.name = 'pic4'
+        cubePic4.rotation.y = -2 * Math.PI
+        cubePic4.position.x = 0
+        cubePic4.position.y = 20
+        cubePic4.position.z = -159
+        scene.add(cubePic4);
+        var cubePic5 = new THREE.Mesh(geometryPic, materialPic5);
+        cubePic5.name = 'pic5'
+        cubePic5.rotation.y = Math.PI / 2
+        cubePic5.position.x = 51
+        cubePic5.position.y = 20
+        cubePic5.position.z = -70
+        scene.add(cubePic5);
     }
 
     function render() {
